@@ -5,7 +5,11 @@ python:
 services:
   - docker
 
+before_install :
+  - echo $ DOCKER_PASSWORD | login do docker - nome de usuário $ DOCKER_USERNAME - senha - stdin
+
 before_script: pip install docker-compose
 
 script:
   - docker-compose run app sh -c "python manage.py test && flake8"
+
