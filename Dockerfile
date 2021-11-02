@@ -5,13 +5,15 @@ ENV PYTHONUNBUFFERED 1
 #cria variavel
 
 COPY ./requirements.txt /requirements.txt
-# copia e execulta instalaveis desse arquivo
+RUN apk add --update --no-cache postgresql-client jpeg-dev
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+      gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
 RUN pip install -r /requirements.txt
-#cria uma pasta para colocar os codigos 
+RUN apk del .tmp-build-deps
+
 RUN mkdir /app
 WORKDIR /app
 COPY ./app /app
-
 
 #cria um usuario
 RUN adduser -D user
